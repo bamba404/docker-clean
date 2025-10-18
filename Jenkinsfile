@@ -37,14 +37,6 @@ pipeline {
       }
     }
 
-    stage('Déployer sur le serveur') {
-      steps {
-        sshagent(['ssh-credentials-id']) {
-          sh '''
-            ssh user@ip-du-serveur "docker pull adminfull/my-node-app:latest && docker stop app || true && docker rm app || true && docker run -d --name app adminfull/my-node-app:latest"
-          '''
-        }
-      }
-    }
+   
   }
 }
