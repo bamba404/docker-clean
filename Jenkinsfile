@@ -3,11 +3,10 @@ pipeline {
 
   environment {
     DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials-id')
-    DOCKER_IMAGE = "adminfull/my-node-app"
+    DOCKER_IMAGE = "bamba/my-node-app"
   }
 
-  
-
+  stages {
     stage('Installer les dépendances') {
       steps {
         sh 'npm install'
@@ -42,7 +41,7 @@ pipeline {
       steps {
         sshagent(['ssh-credentials-id']) {
           sh '''
-            ssh user@ip-du-serveur "docker pull adminfull/my-node-app:latest && docker stop app || true && docker rm app || true && docker run -d --name app adminfull/my-node-app:latest"
+            ssh user@ip-du-serveur "docker pull bamba/my-node-app:latest && docker stop app || true && docker rm app || true && docker run -d --name app bamba/my-node-app:latest"
           '''
         }
       }
