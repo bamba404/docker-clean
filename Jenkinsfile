@@ -9,7 +9,7 @@ pipeline {
   stages {
     stage('Cloner le code') {
       steps {
-        git url: 'https://github.com/bamba404/docker.git', branch: 'main'
+        git url: 'https://github.com/bamba404/docker-clean.git', branch: 'main'
       }
     }
 
