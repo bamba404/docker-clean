@@ -6,12 +6,7 @@ pipeline {
     DOCKER_IMAGE = "adminfull/my-node-app"
   }
 
-  stages {
-    stage('Cloner le code') {
-      steps {
-        git url: 'https://github.com/bamba404/docker-clean.git', branch: 'main'
-      }
-    }
+  
 
     stage('Installer les dépendances') {
       steps {
