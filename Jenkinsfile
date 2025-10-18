@@ -2,7 +2,6 @@ pipeline {
   agent any
 
   environment {
-    DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials-id')
     DOCKER_IMAGE = "adminfull/my-node-app"
   }
 
@@ -27,16 +26,16 @@ pipeline {
       }
     }
 
- stage('Pousser sur Docker Hub') {
-  steps {
-    withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials-id', usernameVariable: 'adminfull', passwordVariable: 'adminfull')]) {
-      sh """
-        echo \$DOCKER_PASS | docker login -u \$DOCKER_USER --password-stdin
-        docker push ${DOCKER_IMAGE}:latest
-      """
+    stage('Pousser sur Docker Hub') {
+      steps {
+        withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials-id', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+          sh """
+            echo \$DOCKER_PASS | docker login -u \$DOCKER_USER --password-stdin
+            docker push ${DOCKER_IMAGE}:latest
+          """
+        }
+      }
     }
-  }
-}
 
     stage('Déployer sur le serveur') {
       steps {
