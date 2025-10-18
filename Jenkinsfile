@@ -27,15 +27,16 @@ pipeline {
       }
     }
 
-    stage('Pousser sur Docker Hub') {
-      steps {
-        script {
-          docker.withRegistry('https://index.docker.io/v1/', DOCKERHUB_CREDENTIALS) {
-            docker.image("${DOCKER_IMAGE}").push('latest')
-          }
-        }
-      }
+ stage('Pousser sur Docker Hub') {
+  steps {
+    withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials-id', usernameVariable: 'adminfull', passwordVariable: 'adminfull')]) {
+      sh """
+        echo \$DOCKER_PASS | docker login -u \$DOCKER_USER --password-stdin
+        docker push ${DOCKER_IMAGE}:latest
+      """
     }
+  }
+}
 
     stage('Déployer sur le serveur') {
       steps {
